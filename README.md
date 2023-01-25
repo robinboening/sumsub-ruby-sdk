@@ -16,13 +16,13 @@ And then execute:
 
 ## Configuration and Usage
 
-You can configure your credentials using `Sumsub::Configure` block. There are three keys you can inform: *token*, *secret_key* and *production*. The token and secret key you need to generate from your SumSub account, and *production* is a boolean value where you specify if you wanna use SumSub production or test environment. To use the test environment, just set production as `false`.
+You can configure your credentials using `Sumsub::Configure` block. There are three keys you can inform: *token*, *secret_key* and *url*. The token and secret key you need to generate from your SumSub account. The *url* defaults to "https://api.sumsub.com" and can be used for sumsub's production and sandbox environment. Sumsub directs to the right environment based on the token and secret key.
 
 ```ruby
 Sumsub.configure do |config|
   config.token = your_token
   config.secret_key = your_secret_key
-  config.production = false # is true by default
+  config.url = "https://api.sumsub.com" # default
 end
 ```
 
@@ -48,8 +48,7 @@ request = Sumsub::Request.new
 #
 # request = Sumsub::Request.new(
 #   token: your_token, 
-#   secret_key: your_secret_key,
-#   production: false
+#   secret_key: your_secret_key
 # )
 
 applicant = Sumsub::Struct::Applicant.new(

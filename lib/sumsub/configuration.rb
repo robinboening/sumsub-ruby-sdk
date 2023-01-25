@@ -2,12 +2,12 @@
 
 module Sumsub
   class Configuration
-    attr_accessor :token, :secret_key, :production
+    attr_accessor :token, :secret_key, :production, :url
 
     def initialize
       @token = nil
       @secret_key = nil
-      @production = true
+      @url = Sumsub::Request.default_url
     end
   end
 end

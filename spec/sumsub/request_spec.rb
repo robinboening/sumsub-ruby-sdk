@@ -20,18 +20,6 @@ RSpec.describe Sumsub::Request do
     it "gets the Sumsub configuration secret key by default" do
       expect(described_class.new.secret_key).to eq('secret_key')
     end
-
-    context "when production == false" do
-      it "uses the api test url" do
-        expect(described_class.new(production: false).url).to eq(described_class::TEST_URL)
-      end
-    end
-
-    context "when production == true (default)" do
-      it "uses the api production url" do
-        expect(described_class.new.url).to eq(described_class::PRODUCTION_URL)
-      end
-    end
   end
 
   describe "#create_applicant" do
@@ -57,7 +45,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :post,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
         args: { json: applicant }
       )
 
@@ -110,7 +98,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
           args: { body: body }
         )
 
@@ -141,7 +129,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
           args: { body: body }
         )
 
@@ -166,7 +154,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :get,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
       )
 
       described_class.new.get_applicant_detailed_status(applicant_id)
@@ -190,7 +178,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :get,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
 
         described_class.new.get_applicant_data(applicant_id, as_external_user_id: true)
@@ -211,7 +199,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :get,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
 
         described_class.new.get_applicant_data(applicant_id)
@@ -235,7 +223,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :get,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
       )
 
       described_class.new.get_applicant_status(applicant_id)
@@ -261,7 +249,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
   
         described_class.new.request_applicant_check(applicant_id, reason: reason)
@@ -282,7 +270,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
   
         described_class.new.request_applicant_check(applicant_id)
@@ -307,7 +295,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :get,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
       )
 
       described_class.new.get_document_image(inspection_id, image_id)
@@ -330,7 +318,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :post,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
       )
 
       described_class.new.reset_applicant(applicant_id)
@@ -354,7 +342,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :patch,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
         args: { json: applicant_new_values }
       )
 
@@ -381,7 +369,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
   
         described_class.new.get_access_token(user_id, level_name)
@@ -404,7 +392,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
   
         described_class.new.get_access_token(user_id, nil, ttl_in_seconds: ttl_in_seconds)
@@ -427,7 +415,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
   
         described_class.new.get_access_token(user_id, nil, external_action_id: external_action_id)
@@ -448,7 +436,7 @@ RSpec.describe Sumsub::Request do
         set_http_client_expects(
           headers,
           :post,
-          "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+          "#{Sumsub::Request.default_url}/resources/#{resource}",
         )
   
         described_class.new.get_access_token(user_id, nil)
@@ -478,7 +466,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :post,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
         args: { json: review_result }
       )
 
@@ -504,7 +492,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :post,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
         args: { body: payload }
       )
 
@@ -538,7 +526,7 @@ RSpec.describe Sumsub::Request do
       set_http_client_expects(
         headers,
         :post,
-        "#{Sumsub::Request::PRODUCTION_URL}/resources/#{resource}",
+        "#{Sumsub::Request.default_url}/resources/#{resource}",
         args: { json: applicant }
       )
 

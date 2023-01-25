@@ -2,19 +2,20 @@
 
 module Sumsub
   class Request
-    PRODUCTION_URL = "https://api.sumsub.com"
-    TEST_URL = "https://test-api.sumsub.com"
-
     attr_reader :url, :secret_key, :token
+
+    def self.default_url
+      "https://api.sumsub.com".freeze
+    end
 
     def initialize(
       token: Sumsub.configuration.token, 
       secret_key: Sumsub.configuration.secret_key,
-      production: Sumsub.configuration.production
+      url: Sumsub.configuration.url
     )
       @token = token
       @secret_key = secret_key
-      @url = production ? PRODUCTION_URL : TEST_URL
+      @url = url
     end
 
     # API docs: https://developers.sumsub.com/api-reference/#creating-an-applicant
